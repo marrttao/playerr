@@ -1,7 +1,3 @@
-﻿Here is a more visually appealing version of your `readme.md`.  
-It uses clear sections, emoji, and improved formatting for readability.
-
----
 
 # 🎵 **Playerr — Minimalist Music Player**
 
