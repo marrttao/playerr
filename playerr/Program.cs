@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Threading.Tasks;
 using playerr.Core.Service;
+using playerr.domain.entities;
 
 class Program
 {
-    static void Main()
+    static async Task Main()
     {
         string musicFolder = @"D:\playerr\offlineMusic";
+
         var musicService = new OfflineMusicService();
         var getTracksUseCase = new GetTracksUseCase(musicService);
-        var player = new AudioPlayerService();
+
+        var effectService = new AudioEffectService();
+        var eq = new EqualizerEffect(44100); // создаем эквалайзер для 44.1 кГц
+        effectService.AddEffect(eq);
+
+        var player = new AudioPlayerService(effectService);
 
         while (true)
         {
@@ -36,10 +44,11 @@ class Program
             }
 
             var selectedTrack = tracks[choice - 1];
-            player.Play(selectedTrack);
 
-            Console.WriteLine("Press P to pause/resume, S to stop, Q to return to list, T to exit.");
+            // Запускаем трек асинхронно
+            var playTask = player.PlayAsync(selectedTrack);
 
+            Console.WriteLine("Controls: P - pause/resume, S - stop, Q - back to list, T - exit");
             bool backToList = false;
             while (!backToList)
             {
@@ -56,13 +65,20 @@ class Program
                         player.Stop();
                         break;
                     case ConsoleKey.Q:
+                        player.Stop();
                         backToList = true;
                         break;
                     case ConsoleKey.T:
                         player.Stop();
                         return;
+                    case ConsoleKey.D1: eq.SetBandGain(0, 6f); break; // пример управления басом
+                    case ConsoleKey.D2: eq.SetBandGain(1, -3f); break; // средние
+                    case ConsoleKey.D3: eq.SetBandGain(2, 2f); break;  // высокие
                 }
             }
+
+            // Ждём окончания воспроизведения, если пользователь вернулся в список
+            await playTask;
         }
     }
 }
