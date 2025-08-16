@@ -1,5 +1,6 @@
 ﻿using NAudio.Wave;
 using playerr.domain.entities;
+using playerr.Core.Providers;
 using System;
 using System.Threading.Tasks;
 
@@ -8,8 +9,8 @@ namespace playerr.Core.Service
     public class AudioPlayerService
     {
         private IWavePlayer _outputDevice;
-        private ISampleProvider _currentProvider;
         private AudioFileReader _audioFile;
+        private EqualizerSampleProvider _eqProvider;
         private readonly AudioEffectService _effectService;
 
         public bool IsPlaying => _outputDevice?.PlaybackState == PlaybackState.Playing;
@@ -19,7 +20,7 @@ namespace playerr.Core.Service
             _effectService = effectService;
         }
 
-        // Асинхронное воспроизведение с поддержкой эффектов
+        // Асинхронное воспроизведение с эффектами
         public async Task PlayAsync(Track track)
         {
             Stop();
@@ -30,30 +31,33 @@ namespace playerr.Core.Service
                     throw new System.IO.FileNotFoundException("Трек не найден", track.Source);
 
                 _audioFile = new AudioFileReader(track.Source);
-                _currentProvider = _effectService.ApplyEffects(_audioFile);
+
+                // Применяем эффекты
+                var provider = _effectService.ApplyEffects(_audioFile);
+
+                // Если это наш эквалайзер, сохраняем ссылку для управления
+                if (provider is EqualizerSampleProvider eq)
+                    _eqProvider = eq;
+                else
+                    _eqProvider = null;
 
                 _outputDevice = new WaveOutEvent();
-                _outputDevice.Init(_currentProvider);
+                _outputDevice.Init(provider);
 
-                // Событие завершения трека
                 _outputDevice.PlaybackStopped += (s, e) =>
                 {
                     _audioFile?.Dispose();
                     _outputDevice?.Dispose();
                     _audioFile = null;
                     _outputDevice = null;
-                    _currentProvider = null;
+                    _eqProvider = null;
                 };
 
                 _outputDevice.Play();
-
                 Console.WriteLine($"Воспроизведение: {track.Name}");
 
-                // Асинхронно ждём завершения воспроизведения
                 while (_outputDevice?.PlaybackState == PlaybackState.Playing)
-                {
-                    await Task.Delay(200); // не блокируем главный поток
-                }
+                    await Task.Delay(200);
             }
             catch (Exception ex)
             {
@@ -75,20 +79,12 @@ namespace playerr.Core.Service
 
         public void Stop()
         {
-            if (_outputDevice != null)
-            {
-                _outputDevice.Stop();
-                _outputDevice.Dispose();
-                _outputDevice = null;
-            }
-
-            if (_audioFile != null)
-            {
-                _audioFile.Dispose();
-                _audioFile = null;
-            }
-
-            _currentProvider = null;
+            _outputDevice?.Stop();
+            _audioFile?.Dispose();
+            _outputDevice?.Dispose();
+            _audioFile = null;
+            _outputDevice = null;
+            _eqProvider = null;
         }
 
         // Регулировка громкости
@@ -96,6 +92,13 @@ namespace playerr.Core.Service
         {
             if (_audioFile != null)
                 _audioFile.Volume = Math.Clamp(volume, 0f, 1f);
+        }
+
+        // Управление эквалайзером на лету
+        public void SetEqualizerBand(int band, float gain)
+        {
+            if (_eqProvider != null)
+                _eqProvider.SetBandGain(band, gain);
         }
     }
 }

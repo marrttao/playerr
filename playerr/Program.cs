@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using playerr.Core.Service;
 using playerr.domain.entities;
+using playerr.Core.Providers;
 
 class Program
 {
@@ -13,7 +14,7 @@ class Program
         var getTracksUseCase = new GetTracksUseCase(musicService);
 
         var effectService = new AudioEffectService();
-        var eq = new EqualizerEffect(44100); // создаем эквалайзер для 44.1 кГц
+        var eq = new EqualizerEffect(44100);
         effectService.AddEffect(eq);
 
         var player = new AudioPlayerService(effectService);
@@ -34,8 +35,7 @@ class Program
 
             Console.Write("Select track number (or T to exit): ");
             var input = Console.ReadLine();
-            if (input?.Trim().ToUpper() == "T")
-                return;
+            if (input?.Trim().ToUpper() == "T") return;
 
             if (!int.TryParse(input, out int choice) || choice < 1 || choice > tracks.Count)
             {
@@ -45,7 +45,17 @@ class Program
 
             var selectedTrack = tracks[choice - 1];
 
-            // Запускаем трек асинхронно
+            // --- Настройка эквалайзера перед запуском трека ---
+            Console.WriteLine("Настройка эквалайзера перед запуском трека:");
+            for (int band = 0; band < 3; band++)
+            {
+                Console.Write($"Введите усиление для полосы {band + 1} (dB, -12..12): ");
+                var bandInput = Console.ReadLine();
+                if (float.TryParse(bandInput, out float gain))
+                    eq.SetBandGain(band, Math.Clamp(gain, -12f, 12f));
+            }
+            Console.WriteLine("Эквалайзер настроен. Запуск трека...");
+
             var playTask = player.PlayAsync(selectedTrack);
 
             Console.WriteLine("Controls: P - pause/resume, S - stop, Q - back to list, T - exit");
@@ -56,10 +66,8 @@ class Program
                 switch (key)
                 {
                     case ConsoleKey.P:
-                        if (player.IsPlaying)
-                            player.Pause();
-                        else
-                            player.Resume();
+                        if (player.IsPlaying) player.Pause();
+                        else player.Resume();
                         break;
                     case ConsoleKey.S:
                         player.Stop();
@@ -71,13 +79,9 @@ class Program
                     case ConsoleKey.T:
                         player.Stop();
                         return;
-                    case ConsoleKey.D1: eq.SetBandGain(0, 6f); break; // пример управления басом
-                    case ConsoleKey.D2: eq.SetBandGain(1, -3f); break; // средние
-                    case ConsoleKey.D3: eq.SetBandGain(2, 2f); break;  // высокие
                 }
             }
 
-            // Ждём окончания воспроизведения, если пользователь вернулся в список
             await playTask;
         }
     }

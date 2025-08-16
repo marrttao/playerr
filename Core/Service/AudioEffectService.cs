@@ -1,20 +1,23 @@
-﻿
-using NAudio.Wave;
-using playerr.Domain;
+﻿using NAudio.Wave;
 using System.Collections.Generic;
+
+public interface IAudioEq
+{
+    ISampleProvider Apply(ISampleProvider input);
+}
 
 namespace playerr.Core.Service
 {
     public class AudioEffectService
     {
-        private readonly List<IAudioEffect> effects = new();
+        private readonly List<IAudioEq> effects = new();
 
-        public void AddEffect(IAudioEffect effect)
+        public void AddEffect(IAudioEq effect)
         {
             effects.Add(effect);
         }
 
-        public void RemoveEffect(IAudioEffect effect)
+        public void RemoveEffect(IAudioEq effect)
         {
             effects.Remove(effect);
         }
