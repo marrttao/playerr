@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>playerr - Login/Register</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="app-logo">
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#111" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="28" cy="28" r="26" stroke="#fff" stroke-width="3" fill="url(#glow)"/>
+        <text x="28" y="36" text-anchor="middle" fill="#fff" font-size="22" font-family="Segoe UI, Arial">P</text>
+      </svg>
+    </div>
+    <div class="app-title">playerr</div>
+  <!-- Removed decor-line for cleaner layout -->
+    <div class="form-wrapper show">
+  <form id="login-form" class="form login">
+        <div class="input-group">
+          <label for="login-username">Username</label>
+          <input id="login-username" type="text" placeholder="Enter your username" required>
+        </div>
+        <div class="input-group">
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" placeholder="Enter your password" required>
+        </div>
+  <button type="submit">Login</button>
+  <button type="button" class="forgot-btn" id="forgot-password">Forgot password?</button>
+  <button type="button" class="switch-link switch-btn" id="to-register">Don't have an account? Register</button>
+      </form>
+  <form id="register-form" class="form register">
+        <div class="input-group">
+          <label for="register-username">Username</label>
+          <input id="register-username" type="text" placeholder="Choose a username" required>
+        </div>
+        <div class="input-group">
+          <label for="register-email">Email</label>
+          <input id="register-email" type="email" placeholder="Your email address" required>
+        </div>
+        <div class="input-group">
+          <label for="register-password">Password</label>
+          <input id="register-password" type="password" placeholder="Create a password" required>
+        </div>
+        <div class="input-group">
+          <label for="register-confirm">Confirm Password</label>
+          <input id="register-confirm" type="password" placeholder="Repeat your password" required>
+        </div>
+        <button type="submit">Register</button>
+  <button type="button" class="switch-link switch-btn" id="to-login">Already have an account? Login</button>
+      </form>
+    <div id="psa-message" class="psa-message" style="display:none;">
+      <div class="psa-content">
+        <h2>Check your email!</h2>
+        <p>We've sent a confirmation link to your email address. Please confirm your account to continue.</p>
+        <button id="psa-to-login" class="switch-btn">Back to Login</button>
+      </div>
+    </div>
+    </div>
+    <div class="decor-line"></div>
+    <footer class="app-footer">© 2025 playerr. All rights reserved.</footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

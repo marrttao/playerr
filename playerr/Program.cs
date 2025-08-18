@@ -44,18 +44,6 @@ class Program
             }
 
             var selectedTrack = tracks[choice - 1];
-
-            // --- Настройка эквалайзера перед запуском трека ---
-            Console.WriteLine("Настройка эквалайзера перед запуском трека:");
-            for (int band = 0; band < 3; band++)
-            {
-                Console.Write($"Введите усиление для полосы {band + 1} (dB, -12..12): ");
-                var bandInput = Console.ReadLine();
-                if (float.TryParse(bandInput, out float gain))
-                    eq.SetBandGain(band, Math.Clamp(gain, -12f, 12f));
-            }
-            Console.WriteLine("Эквалайзер настроен. Запуск трека...");
-
             var playTask = player.PlayAsync(selectedTrack);
 
             Console.WriteLine("Controls: P - pause/resume, S - stop, Q - back to list, T - exit");
@@ -76,6 +64,18 @@ class Program
                         player.Stop();
                         backToList = true;
                         break;
+                    case ConsoleKey.Y:
+                        Console.WriteLine("Настройка эквалайзера");
+                        for (int band = 0; band < 3; band++)
+                        {
+                            Console.Write($"Введите усиление для полосы {band + 1} (dB, -12..12): ");
+                            var bandInput = Console.ReadLine();
+                            if (float.TryParse(bandInput, out float gain))
+                                eq.SetBandGain(band, Math.Clamp(gain, -12f, 12f));
+                        }
+
+                        break;
+                        Console.WriteLine("Эквалайзер настроен. Запуск трека...");
                     case ConsoleKey.T:
                         player.Stop();
                         return;

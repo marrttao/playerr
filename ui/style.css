@@ -1,0 +1,400 @@
+/* Forgot password button styled like login button */
+.forgot-btn {
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+.forgot-btn:hover {
+  background: #111;
+  color: #fff;
+  border: 1px solid #fff;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #111 inset !important;
+  box-shadow: 0 0 0 1000px #111 inset !important;
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff;
+  border: 1.5px solid #fff;
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #fff;
+  position: relative;
+  background: linear-gradient(135deg, #222 0%, #111 100%);
+  transition: background 0.3s;
+}
+.shimmer-bg {
+  pointer-events: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background: radial-gradient(circle at var(--shimmer-x, 50vw) var(--shimmer-y, 50vh), rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 40%, transparent 70%);
+  opacity: 0.8;
+  mix-blend-mode: lighten;
+  transition: background 1.2s cubic-bezier(.77,0,.18,1);
+}
+.app-container {
+  background: rgba(30,30,30,0.96);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 #000a, 0 0 0 2px #fff2;
+  padding: 36px 28px 24px 28px;
+  width: 380px;
+  max-width: 95vw;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1.5px solid #444;
+  overflow: hidden;
+  backdrop-filter: blur(14px) saturate(1.1);
+}   
+.app-logo {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  filter: drop-shadow(0 0 18px #fff6);
+}
+.app-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 18px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 16px #fff6, 0 2px 8px #000a;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #fff;
+}
+.decor-line {
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, #fff 0%, #222 100%);
+  border-radius: 2px;
+  margin: 18px auto 18px auto;
+  opacity: 0.7;
+  box-shadow: 0 0 8px #fff2;
+}
+
+.form-wrapper {
+  position: relative;
+  min-height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(30,30,30,0.98);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #000a;
+  margin: 0 auto;
+}
+/* Make login form more compact */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 1;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+ 
+  box-sizing: border-box;
+  padding: 22px 18px 14px 18px;
+  border-radius: 8px;
+ 
+  position: relative;
+  transition: opacity 0.5s cubic-bezier(.77,0,.18,1);
+  border: none;
+}
+.form.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  text-align: left;
+}
+label {
+  font-size: 1rem;
+  color: #eee;
+  font-weight: 500;
+  margin-left: 2px;
+  margin-bottom: 2px;
+}
+.input-icon {
+  display: flex;
+  align-items: center;
+  background: rgba(34,34,34,0.92);
+  border: none;
+  border-radius: 8px;
+  padding: 0 10px;
+  box-shadow: 0 2px 6px #fff2;
+}
+/* Compact input fields */
+.input-icon input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.07rem;
+  outline: none;
+  padding: 13px 8px 13px 6px;
+  flex: 1;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.input-icon input:focus {
+  background: #222;
+  box-shadow: none;
+  border: none;
+}
+.icon-user, .icon-lock, .icon-mail {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 7px;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 2px #fff6);
+}
+.icon-user {
+  background: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z"/></svg>') no-repeat center/contain;
+}
+.icon-lock {
+  background: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="7" y="11" width="10" height="7" rx="2"/><path d="M12 7a3 3 0 0 1 3 3v1H9V10a3 3 0 0 1 3-3z"/></svg>') no-repeat center/contain;
+}
+.icon-mail {
+  background: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><polyline points="22,6 12,13 2,6" fill="none" stroke="white" stroke-width="2"/></svg>') no-repeat center/contain;
+}
+button {
+  background: linear-gradient(90deg, #fff 0%, #222 100%);
+  color: #111;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 1.07rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px #fff2;
+  margin-top: 8px;
+  letter-spacing: 0.5px;
+}
+button:hover {
+  background: linear-gradient(90deg, #222 0%, #fff 100%);
+  color: #fff;
+  box-shadow: 0 0 0 2px #fff2;
+}
+/* Switch link and button styling */
+/* Switch link and button styling */
+.switch-link {
+  color: #fff;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1.07rem;
+  margin-top: 10px;
+  transition: color 0.2s, background 0.2s;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 4px #fff2;
+  padding: 0;
+  font-family: inherit;
+}
+.switch-link.switch-btn {
+  text-decoration: none;
+  background: linear-gradient(90deg, #fff2 0%, #2222 100%);
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px #fff2;
+  margin-top: 14px;
+  border: 1px solid #fff2;
+}
+.switch-link:hover, .switch-link.switch-btn:hover {
+  color: #222;
+  background: linear-gradient(90deg, #2222 0%, #fff2 100%);
+}
+/* Animation for switching forms */
+/* Centered fade/blur animation for forms */
+/* Centered fade/blur/scale animation for forms */
+
+/* Animate the whole form-wrapper for login/register transitions */
+.form-wrapper {
+  transition:
+    opacity 0.6s cubic-bezier(.77,0,.18,1),
+    filter 0.6s cubic-bezier(.77,0,.18,1),
+    transform 0.6s cubic-bezier(.77,0,.18,1),
+    height 0.6s cubic-bezier(.77,0,.18,1);
+  will-change: opacity, filter, transform, height;
+  z-index: 2;
+  overflow: hidden;
+}
+.form-wrapper.hide {
+  opacity: 0;
+  filter: blur(18px) brightness(0.7);
+  transform: scale(0.96);
+  pointer-events: none;
+}
+.form-wrapper.show {
+  opacity: 1;
+  filter: blur(0) brightness(1);
+  transform: scale(1.02);
+  pointer-events: auto;
+}
+
+.app-footer {
+  margin-top: 18px;
+  font-size: 1rem;
+  color: #fff;
+  opacity: 0.9;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 0 1px 8px #fff2;
+}
+body {
+  background: #111;
+  color: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-container {
+  background: #222;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  padding: 28px 24px;   /* уменьшил отступы */
+  width: 340px;         /* чуть уже */
+  max-width: 90vw;
+  text-align: center;
+  position: relative;
+}
+
+.app-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 32px;
+  letter-spacing: 2px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  opacity: 1;
+  transition: opacity 0.5s cubic-bezier(.77,0,.18,1);
+}
+
+.form.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+input {
+  background: #111;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 12px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+input:focus {
+  border: 1.5px solid #ffffff;
+}
+
+button {
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+button:hover {
+  background: #111;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+/* Switch link and button styling */
+.switch-link {
+  color: #fff;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 10px;
+  transition: color 0.2s, background 0.2s;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 4px #000a;
+  padding: 0;
+  font-family: inherit;
+}
+.switch-link.switch-btn {
+  text-decoration: none;
+  background: linear-gradient(90deg, #fff2 0%, #222 100%);
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px #0002;
+  margin-top: 14px;
+  border: 1px solid #444;
+}
+.switch-link:hover, .switch-link.switch-btn:hover {
+  color: #bbb;
+  background: linear-gradient(90deg, #222 0%, #fff2 100%);
+}
+.form-anim {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  transition: transform 0.7s cubic-bezier(.77,0,.18,1), opacity 0.5s cubic-bezier(.77,0,.18,1);
+}
+.form-anim.login {
+  z-index: 2;
+}
+.form-anim.register {
+  z-index: 1;
+}
+.form-anim.slide-out-left {
+  transform: translateX(-120%);
+  opacity: 0;
+}
+.form-anim.slide-in-right {
+  transform: translateX(0);
+  opacity: 1;
+}
+.form-anim.slide-out-right {
+  transform: translateX(120%);
+  opacity: 0;
+}
+.form-anim.slide-in-left {
+  transform: translateX(0);
+  opacity: 1;
+}
